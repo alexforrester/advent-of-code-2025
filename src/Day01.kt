@@ -1,21 +1,104 @@
+import current
+import kotlin.math.abs
+
+var counter = 0
+var current = 50
+enum class Direction{L, R}
+data class Dial(val direction: Direction, val valueToChange: Int)
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
-    }
 
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
+    val input = readInput("Day01")
 
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
+    // convert the lines to dials
+    val dials = convertToDials(input)
 
-    // Or read a large test input from the `src/Day01_test.txt` file:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+    processDials(dials)
 
     // Read the input from the `src/Day01.txt` file.
-    val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
+    print("Answer: $counter")
+    print("")
 }
+
+
+fun convertToDials(inputLines: List<String>) : List<Dial> {
+    return inputLines.map { line ->
+        val direction = (Direction.valueOf(line.substring(0, 1)))
+        val valueToChange = line.substring(1, line.length).toInt()
+        Dial(direction, valueToChange)
+    }
+}
+
+fun processDials(dials: List<Dial>) {
+
+    dials.forEach { dial ->
+        when (dial.direction) {
+            Direction.L -> putDown(dial.valueToChange).also {
+                if (it == 0) ++counter
+                current = it
+            }
+
+            Direction.R -> putUp( dial.valueToChange).also {
+                if (it == 0) ++counter
+                current = it
+            }
+        }
+    }
+}
+
+fun putUp(valueToIncrement: Int): Int {
+
+    println("----------------------------------")
+
+    println("valueToIncrement: $valueToIncrement")
+    val correctedValue = valueToIncrement % 100
+    println("correctedValue: $correctedValue")
+
+    val intermediate = correctedValue + current
+
+    println("Current: $current")
+    println("Intermediate: $intermediate")
+
+    val result = if (intermediate == 0) {
+        0
+    } else if (intermediate > 99) {
+        val check = intermediate - 100
+        println("Answer to Value incremented: $check")
+        check
+    } else {
+        println("Answer to Value incremented: $intermediate")
+        intermediate
+    }
+
+    return result
+}
+
+fun putDown(valueToDecrement: Int) : Int {
+
+    println("----------------------------------")
+
+    println("valueToDecrement: $valueToDecrement")
+    val correctedValue = valueToDecrement % 100
+    println("correctedValue: $correctedValue")
+
+    val intermediate = current - correctedValue
+
+    println("Current: $current")
+    println("Intermediate: $intermediate")
+
+    val result = if (intermediate == 0) {
+        println(0)
+            0
+    }
+    else if (intermediate < 0) {
+        val check = (100 - (abs(intermediate)))
+        println("Answer to Value decremented: $check")
+        check
+    } else {
+        println("Answer to Value decremented: $intermediate")
+        intermediate
+    }
+
+    return result
+}
+
