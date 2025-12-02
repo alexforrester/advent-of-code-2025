@@ -1,10 +1,8 @@
 import kotlin.math.abs
 
 private var counter = 0
+var throughDials = 0
 private var current = 50
-
-enum class Direction{L, R}
-data class Dial(val direction: Direction, val valueToChange: Int)
 
 fun main() {
 
@@ -15,9 +13,10 @@ fun main() {
 
     processDials(dials)
 
-    print("Answer: $counter")
-    print("")
-    print("Correct Answer: 1071")
+    // Read the input from the `src/Day01.txt` file.
+    println("Counter Answer: $counter")
+    println("Through Dials Answer: $throughDials")
+    println("Answer: ${counter + throughDials}")
 }
 
 
@@ -51,6 +50,15 @@ private fun putUp(valueToIncrement: Int): Int {
     println("----------------------------------")
 
     println("valueToIncrement: $valueToIncrement")
+
+    var revolutions = valueToIncrement / 100
+
+    println("revolutions: $revolutions")
+
+    if (revolutions > 0) {
+        throughDials += revolutions
+    }
+
     val correctedValue = valueToIncrement % 100
     println("correctedValue: $correctedValue")
 
@@ -60,9 +68,11 @@ private fun putUp(valueToIncrement: Int): Int {
     println("Intermediate: $intermediate")
 
     val result = if (intermediate == 0) {
+        println("Returning 0 from perfect match")
         0
     } else if (intermediate > 99) {
         val check = intermediate - 100
+        if (check != 0) throughDials++
         println("Answer to Value incremented: $check")
         check
     } else {
@@ -78,6 +88,14 @@ private fun putDown(valueToDecrement: Int) : Int {
     println("----------------------------------")
 
     println("valueToDecrement: $valueToDecrement")
+
+    var revolutions = valueToDecrement / 100
+    println("revolutions: $revolutions")
+
+    if (revolutions > 0) {
+        throughDials += revolutions
+    }
+
     val correctedValue = valueToDecrement % 100
     println("correctedValue: $correctedValue")
 
@@ -87,11 +105,12 @@ private fun putDown(valueToDecrement: Int) : Int {
     println("Intermediate: $intermediate")
 
     val result = if (intermediate == 0) {
-        println(0)
-            0
+        println("Returning 0 from perfect match")
+        0
     }
     else if (intermediate < 0) {
         val check = (100 - (abs(intermediate)))
+        if (check != 0) throughDials++
         println("Answer to Value decremented: $check")
         check
     } else {
@@ -101,4 +120,3 @@ private fun putDown(valueToDecrement: Int) : Int {
 
     return result
 }
-

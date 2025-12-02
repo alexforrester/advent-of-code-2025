@@ -8,6 +8,8 @@ import kotlin.io.path.readText
  */
 fun readInput(name: String) = Path("src/$name.txt").readText().trim().lines()
 
+fun readInputString(name: String) = Path("src/$name.txt").readText()
+
 fun part(input: List<String>): Int {
     return input.size
 }

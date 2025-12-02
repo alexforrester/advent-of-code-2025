@@ -1,20 +1,43 @@
 
+private var counter = 0L
+
 fun main() {
 
-    fun part2(input: List<String>): Int {
-        return input.size
+    val input = readInputString("Day02")
+    val ids = input.split(",")
+
+    val idEntriesMap = ids.associate { it.split("-").first() to it.split("-").last()}
+
+    idEntriesMap.entries.forEach {
+
+        val first = it.key.toLong()
+        val second = it.value.toLong()
+
+        for (numberEntry in first..second) {
+
+            if (numberEntry.toString().length % 2 != 0) continue
+            if (numberEntry.toString().isEmpty()) continue
+            if (numberEntry.toString().length == 1) continue
+
+            val possibleMatch = splitIntoAPair(numberEntry)
+
+            if (possibleMatch.first == possibleMatch.second) {
+                counter += "${possibleMatch.first}${possibleMatch.second}".toLong()
+                println("possibleMatch.first = ${possibleMatch.first}")
+                println("possibleMatch.second = ${possibleMatch.second}")
+                println("counter now= $counter")
+            }
+        }
     }
 
-    // Test if implementation meets criteria from the description, like:
-    check(part2(listOf("test_input")) == 1)
+    print("Answer: $counter")
+}
 
-    val input = readInput("Day02")
-    //readInput("Day01_test")
+private fun splitIntoAPair(number: Long) : Pair<Long, Long> {
 
-    // Or read a large test input from the `src/Day01_test.txt` file:
-    // val testInput = readInput("Day01_test")
-    check(part2(input) == 1)
-
-    // Read the input from the `src/Day01.txt` file.
-    part2(input).println()
+    val digits = number.toString()
+    val mid = digits.length / 2
+    val firstHalf = digits.substring(0, mid).toLong()
+    val secondHalf = digits.substring(mid).toLong()
+    return Pair(firstHalf, secondHalf)
 }
