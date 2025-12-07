@@ -16,8 +16,6 @@ fun main() {
     processDials(dials)
 
     print("Answer: $counter")
-    print("")
-    print("Correct Answer: 1071")
 }
 
 
@@ -48,25 +46,16 @@ private fun processDials(dials: List<Dial>) {
 
 private fun putUp(valueToIncrement: Int): Int {
 
-    println("----------------------------------")
-
-    println("valueToIncrement: $valueToIncrement")
     val correctedValue = valueToIncrement % 100
-    println("correctedValue: $correctedValue")
 
     val intermediate = correctedValue + current
-
-    println("Current: $current")
-    println("Intermediate: $intermediate")
 
     val result = if (intermediate == 0) {
         0
     } else if (intermediate > 99) {
         val check = intermediate - 100
-        println("Answer to Value incremented: $check")
         check
     } else {
-        println("Answer to Value incremented: $intermediate")
         intermediate
     }
 
@@ -75,16 +64,8 @@ private fun putUp(valueToIncrement: Int): Int {
 
 private fun putDown(valueToDecrement: Int) : Int {
 
-    println("----------------------------------")
-
-    println("valueToDecrement: $valueToDecrement")
     val correctedValue = valueToDecrement % 100
-    println("correctedValue: $correctedValue")
-
     val intermediate = current - correctedValue
-
-    println("Current: $current")
-    println("Intermediate: $intermediate")
 
     val result = if (intermediate == 0) {
         println(0)
@@ -92,10 +73,8 @@ private fun putDown(valueToDecrement: Int) : Int {
     }
     else if (intermediate < 0) {
         val check = (100 - (abs(intermediate)))
-        println("Answer to Value decremented: $check")
         check
     } else {
-        println("Answer to Value decremented: $intermediate")
         intermediate
     }
 
